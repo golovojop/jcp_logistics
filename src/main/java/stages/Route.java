@@ -2,6 +2,8 @@ package stages;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Route {
 
@@ -10,4 +12,15 @@ public class Route {
 
     public Route(Stage... stages) {
         this.stages = new ArrayList<>(Arrays.asList(stages));
-    }}
+    }
+
+    public Route(Collection<Stage> stages) {
+        this.stages = new ArrayList<>(stages);
+    }
+
+    // Инверсия маршрута
+    public void routeBack() {
+        Collections.reverse(stages);
+    }
+}
+
