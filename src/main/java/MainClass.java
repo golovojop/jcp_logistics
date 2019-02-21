@@ -1,5 +1,6 @@
 import seaport.Dock;
 import seaport.DockType;
+import seaport.Port;
 import stages.Channel;
 import stages.OpenSee;
 import stages.Route;
@@ -14,6 +15,9 @@ public class MainClass {
 
 
     public static void main(String[] args) {
+
+        // Порт разгрузки
+        Port port = new Port();
 
         // Список доков с товаром
         List<Dock> docks = Arrays.asList(
@@ -30,23 +34,30 @@ public class MainClass {
         );
 
         // Технические характеристики кораблей
-        Capacity capFuelTanker      = new Capacity(700, 500, 300, 70);
+        Capacity capFuelTanker      = new Capacity(4000, 2500, 1500, 70);
         Capacity capFoodCargo       = new Capacity(300, 700, 300, 90);
         Capacity capClothesCargo    = new Capacity(300, 300, 800, 100);
 
         // Корабли
+//        List<Ship> ships = Arrays.asList(
+//                new Ship("Tanker1", capFuelTanker, port, docks, new Route(route.getStages())),
+//                new Ship("FoodCargo", capFoodCargo, port, docks, new Route(route.getStages())),
+//                new Ship("Tanker2", capFuelTanker, port, docks, new Route(route.getStages())),
+//                new Ship("ClothesCargo", capClothesCargo, port, docks, new Route(route.getStages()))
+//        );
+
         List<Ship> ships = Arrays.asList(
-                new Ship("Tanker1", capFuelTanker, docks, new Route(route.getStages())),
-                new Ship("FoodCargo", capFoodCargo, docks, new Route(route.getStages())),
-                new Ship("Tanker2", capFuelTanker, docks, new Route(route.getStages())),
-                new Ship("ClothesCargo", capClothesCargo, docks, new Route(route.getStages()))
+                new Ship("Tanker1", capFuelTanker, port, docks, new Route(route.getStages()))
         );
+
 
         // Поехали
         for(Ship s : ships) s.start();
 
         try {
             for(Ship s : ships) s.join();
-        } catch (InterruptedException e) {e.printStackTrace();}
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

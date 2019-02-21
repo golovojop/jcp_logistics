@@ -16,6 +16,7 @@ public class Dock {
     public Dock(DockType type) {
         lock = new ReentrantLock();
         this.capacity = type.getCapacity();
+        this.remain = this.capacity;
         this.type = type;
     }
 
@@ -32,7 +33,7 @@ public class Dock {
      */
     private void onLoading(int qty) {
         try {
-            TimeUnit.MILLISECONDS.sleep((qty / loadingSpeed) * 1000);
+            TimeUnit.MILLISECONDS.sleep((qty / loadingSpeed) * 100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
