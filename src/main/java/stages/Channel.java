@@ -15,10 +15,13 @@ public class Channel extends Stage {
 
     public void go(Ship ship) {
         try {
+            // Вход в пролив
             semaphore.acquire();
-            System.out.println(ship.getShipName() + " начал этап: " + description);
-            TimeUnit.MILLISECONDS.sleep(length / ship.getSpeed() * 1000);
-            System.out.println(ship.getShipName() + " закончил этап: " + description);
+
+            p(String.format("%s вошел в '%s'", ship.getShipName(), description));
+            TimeUnit.MILLISECONDS.sleep(length / ship.getSpeed() * 100);
+            p(String.format("%s вышел из '%s'", ship.getShipName(), description));
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {

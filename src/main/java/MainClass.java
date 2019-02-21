@@ -28,27 +28,27 @@ public class MainClass {
 
         // Маршрут
         Route route = new Route(
-                new OpenSee(300, "sea1"),
-                new Channel(200, "channel"),
-                new OpenSee(200, "sea2")
+                new OpenSee(300, "Район порта"),
+                new Channel(200, "Пролив"),
+                new OpenSee(200, "Район доков")
         );
 
         // Технические характеристики кораблей
         Capacity capFuelTanker      = new Capacity(4000, 2500, 1500, 70);
-        Capacity capFoodCargo       = new Capacity(300, 700, 300, 90);
-        Capacity capClothesCargo    = new Capacity(300, 300, 800, 100);
+        Capacity capFoodCargo       = new Capacity(1300, 2100, 1700, 90);
+        Capacity capClothesCargo    = new Capacity(800, 1300, 1800, 100);
 
         // Корабли
-//        List<Ship> ships = Arrays.asList(
-//                new Ship("Tanker1", capFuelTanker, port, docks, new Route(route.getStages())),
-//                new Ship("FoodCargo", capFoodCargo, port, docks, new Route(route.getStages())),
-//                new Ship("Tanker2", capFuelTanker, port, docks, new Route(route.getStages())),
-//                new Ship("ClothesCargo", capClothesCargo, port, docks, new Route(route.getStages()))
-//        );
-
         List<Ship> ships = Arrays.asList(
-                new Ship("Tanker1", capFuelTanker, port, docks, new Route(route.getStages()))
+                new Ship("Tanker1", capFuelTanker, port, docks, new Route(route.getStages())),
+                new Ship("FoodCargo", capFoodCargo, port, docks, new Route(route.getStages())),
+                new Ship("Tanker2", capFuelTanker, port, docks, new Route(route.getStages())),
+                new Ship("ClothesCargo", capClothesCargo, port, docks, new Route(route.getStages()))
         );
+
+//        List<Ship> ships = Arrays.asList(
+//                new Ship("Tanker1", capFuelTanker, port, docks, new Route(route.getStages()))
+//        );
 
 
         // Поехали

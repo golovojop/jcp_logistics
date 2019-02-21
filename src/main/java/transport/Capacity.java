@@ -1,5 +1,11 @@
 package transport;
 
+/**
+ * Класс представляет технические возможности корабля
+ * - скорость
+ * - количество груза разных типов, которое он может взять на борт
+ */
+
 public class Capacity {
     private int capacityFuel;
     private int capacityFood;

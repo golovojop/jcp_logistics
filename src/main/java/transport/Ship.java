@@ -33,7 +33,7 @@ public class Ship extends Thread {
 
         // Челночим пока все доки не опустеют
         while (docksNotEmpty) {
-            int received = 0;
+            int receivedQty = 0;
 
             // Передвижение в сторону доков
             for (Stage s : route.getStages()) {
@@ -43,10 +43,8 @@ public class Ship extends Thread {
             p(String.format("%s подошел к докам", name));
 
             // Получить груз
-            received = getCargo();
-            if(received == 0) docksNotEmpty = false;
-
-            p(String.format("%s получил %d груза", name, received));
+            receivedQty = getCargo();
+            if(receivedQty == 0) docksNotEmpty = false;
 
             // Инверсия маршрута
             route.routeBack();
@@ -58,22 +56,23 @@ public class Ship extends Thread {
                 s.go(this);
             }
 
-            if(received != 0) {
-                p(String.format("%s разгружается", name));
+            if(receivedQty != 0) {
+                p(String.format("\t%s разгружается", name));
                 // Разгрузиться
-                port.unloadShip(received);
+                port.unloadShip(receivedQty);
 
                 // Инверсия маршрута. Снова в доки за грузом
                 route.routeBack();
             }
 
             if(!docksNotEmpty) {
-                p(String.format("%s закончил навигацию", name));
+                p(String.format("\t%s закончил навигацию", name));
             }
         }
     }
 
     /**
+     * TODO: Получить груз
      * @return количество груза
      */
     private int getCargo() {
@@ -82,14 +81,17 @@ public class Ship extends Thread {
 
         while (receivedQty <= 0) {
 
-            // Попытка загрузиться в любом доке
+            // Попытка загрузиться в любом доке.
             for (Dock dock : docks) {
                 // Сколько груза данного типа я могу принять
                 int qty = chooseShipCapacity(dock.getType());
                 // Получить груз
                 receivedQty = dock.loadOnShip(qty);
                 // Груз получен
-                if (receivedQty > 0) return receivedQty;
+                if (receivedQty > 0) {
+                    p(String.format("\t%s получил %d груза в доке %s", name, receivedQty, dock.getType()));
+                    return receivedQty;
+                }
                 // В доке не осталось грузов
                 if (receivedQty == 0) emptyDocks++;
             }

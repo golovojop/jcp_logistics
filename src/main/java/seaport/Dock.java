@@ -48,22 +48,35 @@ public class Dock {
      */
     public int loadOnShip(int qty) {
         boolean permit = lock.tryLock();
-        int actuallyLoaded = BUSSY;
+        int actuallyLoaded = 0;
 
         if(permit) {
             try {
                 if (remain > qty) {
                     actuallyLoaded = qty;
                     remain -= qty;
-                } else {
+                } else if(remain > 0) {
                     actuallyLoaded = remain;
                     remain = 0;
+                    p(String.format("\tДок %s разгружен", type));
                 }
+
+                // Процесс загрузки
                 onLoading(actuallyLoaded);
             } finally {
                 lock.unlock();
             }
+        } else {
+            actuallyLoaded = BUSSY;
         }
+
         return actuallyLoaded;
+    }
+
+    /**
+     * Вывод в консоль
+     */
+    private void p(String s) {
+        System.out.println(s);
     }
 }

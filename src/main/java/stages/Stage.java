@@ -17,4 +17,12 @@ public abstract class Stage {
         return description;
     }
     public abstract void go(Ship ship);
+
+    /**
+     * Вывод в консоль
+     */
+    protected void p(String s) {
+        System.out.println(s);
+    }
+
 }
