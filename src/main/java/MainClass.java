@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainClass {
+import org.apache.log4j.Logger;
 
+
+public class MainClass {
 
     public static void main(String[] args) {
 
@@ -28,9 +30,9 @@ public class MainClass {
 
         // Маршрут
         Route route = new Route(
-                new OpenSee(300, "Район порта"),
+                new OpenSee(300, "Акватория порта"),
                 new Channel(200, "Пролив"),
-                new OpenSee(200, "Район доков")
+                new OpenSee(200, "Акватория доков")
         );
 
         // Технические характеристики кораблей
@@ -40,16 +42,11 @@ public class MainClass {
 
         // Корабли
         List<Ship> ships = Arrays.asList(
-                new Ship("Tanker1", capFuelTanker, port, docks, new Route(route.getStages())),
-                new Ship("FoodCargo", capFoodCargo, port, docks, new Route(route.getStages())),
-                new Ship("Tanker2", capFuelTanker, port, docks, new Route(route.getStages())),
-                new Ship("ClothesCargo", capClothesCargo, port, docks, new Route(route.getStages()))
+                new Ship("Tanker1", capFuelTanker, port, docks, new Route(route.getStages()), Logger.getLogger("ship1")),
+                new Ship("FoodCargo", capFoodCargo, port, docks, new Route(route.getStages()), Logger.getLogger("ship2")),
+                new Ship("Tanker2", capFuelTanker, port, docks, new Route(route.getStages()), Logger.getLogger("ship3")),
+                new Ship("ClothesCargo", capClothesCargo, port, docks, new Route(route.getStages()), Logger.getLogger("ship4"))
         );
-
-//        List<Ship> ships = Arrays.asList(
-//                new Ship("Tanker1", capFuelTanker, port, docks, new Route(route.getStages()))
-//        );
-
 
         // Поехали
         for(Ship s : ships) s.start();

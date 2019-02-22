@@ -1,5 +1,7 @@
 package seaport;
 
+import org.apache.log4j.Logger;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -12,12 +14,14 @@ public class Dock {
     private ReentrantLock lock;
     private DockType type;
     private int remain;
+    private Logger logbook;
 
     public Dock(DockType type) {
         lock = new ReentrantLock();
         this.capacity = type.getCapacity();
         this.remain = this.capacity;
         this.type = type;
+        this.logbook = Logger.getLogger("docklog");
     }
 
     /**
@@ -58,7 +62,7 @@ public class Dock {
                 } else if(remain > 0) {
                     actuallyLoaded = remain;
                     remain = 0;
-                    p(String.format("\tДок %s разгружен", type));
+                    logbook.info(String.format("\tДок %s разгружен", type));
                 }
 
                 // Процесс загрузки

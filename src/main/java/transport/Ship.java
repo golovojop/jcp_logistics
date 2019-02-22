@@ -5,10 +5,8 @@ import seaport.DockType;
 import seaport.Port;
 import stages.Route;
 import stages.Stage;
-
 import java.util.List;
-
-import static seaport.DockType.*;
+import org.apache.log4j.Logger;
 
 public class Ship extends Thread {
     private List<Dock> docks;
@@ -16,18 +14,20 @@ public class Ship extends Thread {
     private Route route;
     private String name;
     private Port port;
+    private Logger logbook;
 
-    public Ship(String name, Capacity capacity, Port port, List<Dock> docks, Route route) {
+    public Ship(String name, Capacity capacity, Port port, List<Dock> docks, Route route, Logger logbook) {
         this.name = name;
         this.docks = docks;
         this.capacity = capacity;
         this.route = route;
         this.port = port;
+        this.logbook = logbook;
     }
 
     @Override
     public void run() {
-        p(String.format("%s вышел из порта", name));
+        logbook.info(String.format("'%s' вышел из порта", name));
 
         boolean docksNotEmpty = true;
 
@@ -40,7 +40,7 @@ public class Ship extends Thread {
                 s.go(this);
             }
 
-            p(String.format("%s подошел к докам", name));
+            logbook.info(String.format("'%s' подошел к докам", name));
 
             // Получить груз
             receivedQty = getCargo();
@@ -49,7 +49,7 @@ public class Ship extends Thread {
             // Инверсия маршрута
             route.routeBack();
 
-            p(String.format("%s возвращается в порт", name));
+            logbook.info(String.format("'%s' возвращается в порт", name));
 
             // В сторону порта
             for (Stage s : route.getStages()) {
@@ -57,7 +57,8 @@ public class Ship extends Thread {
             }
 
             if(receivedQty != 0) {
-                p(String.format("\t%s разгружается", name));
+                logbook.info(String.format("'%s' разгружается", name));
+
                 // Разгрузиться
                 port.unloadShip(receivedQty);
 
@@ -66,7 +67,7 @@ public class Ship extends Thread {
             }
 
             if(!docksNotEmpty) {
-                p(String.format("\t%s закончил навигацию", name));
+                logbook.info(String.format("'%s' закончил навигацию", name));
             }
         }
     }
@@ -89,7 +90,7 @@ public class Ship extends Thread {
                 receivedQty = dock.loadOnShip(qty);
                 // Груз получен
                 if (receivedQty > 0) {
-                    p(String.format("\t%s получил %d груза в доке %s", name, receivedQty, dock.getType()));
+                    logbook.info(String.format("\t'%s' получил %d груза в доке %s", name, receivedQty, dock.getType()));
                     return receivedQty;
                 }
                 // В доке не осталось грузов
@@ -134,7 +135,6 @@ public class Ship extends Thread {
         return cap;
     }
 
-
     /**
      * @return имя корабля
      */
@@ -149,4 +149,10 @@ public class Ship extends Thread {
         System.out.println(s);
     }
 
+    /**
+     * Получить бортовой журнал
+     */
+    public Logger getLogbook() {
+        return logbook;
+    }
 }

@@ -13,9 +13,6 @@ public abstract class Stage {
         this.description = description;
     }
 
-    public String getDescription() {
-        return description;
-    }
     public abstract void go(Ship ship);
 
     /**
