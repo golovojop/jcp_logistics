@@ -90,7 +90,7 @@ public class Ship extends Thread {
                 receivedQty = dock.loadOnShip(qty);
                 // Груз получен
                 if (receivedQty > 0) {
-                    logbook.info(String.format("\t'%s' получил %d груза в доке %s", name, receivedQty, dock.getType()));
+                    logbook.info(String.format("\t'%s' получил %d ед. груза в доке %s", name, receivedQty, dock.getType()));
                     return receivedQty;
                 }
                 // В доке не осталось грузов
@@ -101,6 +101,7 @@ public class Ship extends Thread {
             if (emptyDocks == docks.size()) {
                 break;
             } else {
+                // Все доки были заняты. Новая итерация
                 emptyDocks = 0;
             }
         }
